@@ -62,7 +62,11 @@ exports.topColors = function (sourceFilename, sorted, cb) {
       });
 
       miffRS.addListener('close', function () {
-        fs.unlink(tmpFilename);
+        fs.unlink(tmpFilename, function (error) {
+          if (error) {
+            console.error(error);
+          }
+        });
 
         var histogramStart = histogram.indexOf(MIFF_START) + MIFF_START.length;
         var histogramEnd = histogram.indexOf('}', histogramStart);
