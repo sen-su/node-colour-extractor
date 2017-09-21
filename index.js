@@ -6,8 +6,8 @@ var MAX_W = 256;
 var MIFF_START = 'comment={\n';
 var MIFF_END = '\x0A}\x0A\x0C\x0A\n';
 
-function sortByFrequency ([a, _a2], [b, _b2]) {
-  return b - a;
+function sortByFrequency (a, b) {
+  return b[0] - a[0];
 }
 
 /*
