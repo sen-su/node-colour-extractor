@@ -1,4 +1,6 @@
-# color-extractor [![build status](https://secure.travis-ci.org/sen-su/node-color-extractor.png)](http://travis-ci.org/sen-su/node-color-extractor)
+# color-extractor [![build status](https://secure.travis-ci.org/sen-su/color-extractor.png)](http://travis-ci.org/sen-su/color-extractor)
+
+## An updated fork of node-colour-extractor with proper error handling and tests
 
 Extract color palettes from photos using Node.js.
 
@@ -60,15 +62,9 @@ The second function, `colorKey`, returns an array with nine colors, where each o
     > ce.hex2rgb('45c092')
     [69, 192, 146]
 
-## How does it work?
-
-That's what I'd like to know as well! Anyhow, `color-extractor` parses GraphicMagick's histogram, tries to detect similar colors and remove ones which appear less frequently than others.
-
-If you happen to know an actual algorithm that deals with this sort of stuff, don't hesitate to contact me!
-
 ## License
 
-color-extractor is published under MMIT license, please see the LICENSE file for full details.
+color-extractor is published under MIT license, please see the LICENSE file for full details.
 
 Photos used in the sample can be downloaded from Flickr:
 

@@ -2,12 +2,19 @@
   "name": "@sensu/color-extractor",
   "description": "Extract color palettes from images",
   "version": "1.0.0",
-  "homepage": "http://github.com/josip/node-colour-extractor",
+  "homepage": "http://github.com/sen-su/color-extractor",
   "repository": {
     "type": "git",
-    "url": "git://github.com/josip/node-colour-extractor.git"
+    "url": "git://github.com/sen-su/color-extractor.git"
   },
-  "author": "Josip Lisec <josip@jlx.cc> (http://jlx.cc)",
+  "author": "SENSU K. K. <contact@sensu.one>",
+  "contributors": [
+    {
+      "name": "Bjorn Stromberg",
+      "email": "bjorn@bjornstar.com",
+      "url": "http://bjornstar.com/about"
+    }
+  ],
   "license": "MIT",
   "scripts": {
     "lint": "./node_modules/.bin/eslint index.js test",
