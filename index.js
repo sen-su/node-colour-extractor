@@ -22,7 +22,7 @@ var histogramRE = /\s*(\d+): \(\s*(\d+),\s*(\d+),\s*(\d+)\)/;
 
 function parseHistogramLine (line) {
   var m = histogramRE.exec(line);
-  return [ +m[1], [ +m[2], +m[3], +m[4] ] ];
+  return m && [ +m[1], [ +m[2], +m[3], +m[4] ] ];
 }
 
 exports.topColors = function (sourceFilename, sorted, cb) {
@@ -71,7 +71,7 @@ exports.topColors = function (sourceFilename, sorted, cb) {
         var histogramStart = histogram.indexOf(MIFF_START) + MIFF_START.length;
         var histogramEnd = histogram.indexOf('}', histogramStart);
 
-        var colors = histogram.slice(histogramStart, histogramEnd - 1).split('\n').map(parseHistogramLine);
+        var colors = histogram.slice(histogramStart, histogramEnd - 1).split('\n').map(parseHistogramLine).filter(Boolean);
 
         if (sorted) {
           colors.sort(sortByFrequency);
