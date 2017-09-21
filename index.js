@@ -17,8 +17,11 @@ Example line:
    \   \______________________________ RGB triplet
     \_________________________________ Frequency at which color appears
 */
+
+var histogramRE = /\s*(\d+): \(\s*(\d+),\s*(\d+),\s*(\d+)\)/;
+
 function parseHistogramLine (line) {
-  var m = /\s*(\d+): \(\s*(\d+),\s*(\d+),\s*(\d+)\)/.exec(line);
+  var m = histogramRE.exec(line);
   return [ +m[1], [ +m[2], +m[3], +m[4] ] ];
 }
 
