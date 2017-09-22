@@ -17,4 +17,26 @@ describe('color-extractor', function () {
       done();
     });
   });
+
+  it('Works on png', function (done) {
+    colorExtractor.topColors(path.resolve(path.join('test', 'test002.png')), true, function (error, colors) {
+      if (error) {
+        return done(error);
+      }
+
+      colors.should.be.an.Array();
+      done();
+    });
+  });
+
+  it('doesn\'t choke on comments', function (done) {
+    colorExtractor.topColors(path.resolve(path.join('test', 'test003.jpeg')), true, function (error, colors) {
+      if (error) {
+        return done(error);
+      }
+
+      colors.should.be.an.Array();
+      done();
+    });
+  });
 });
