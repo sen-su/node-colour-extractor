@@ -1,7 +1,7 @@
 {
   "name": "@sensu/color-extractor",
   "description": "Extract color palettes from images",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "homepage": "http://github.com/sen-su/color-extractor",
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
     "lint": "./node_modules/.bin/eslint index.js test",
     "test": "./node_modules/.bin/mocha --require should --reporter spec"
   },
+  "typings": "index.d.ts",
   "dependencies": {
     "gm": ">=0.4.0",
     "temp": ">=0.4.x"

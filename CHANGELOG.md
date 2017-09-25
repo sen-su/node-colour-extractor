@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## v1.1.1 - 2017-09-26
+* Add typescript definition for topColors
+
 ## v1.1.0 - 2017-09-25
 * Remove sorted option, always sort colors
 * Add support for images with alpha in the histogram
