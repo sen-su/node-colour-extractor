@@ -20,15 +20,13 @@ NOTE: `color-extractor` depends on [gm](http://aheckmann.github.com/gm/) module,
 `color-extractor` exports two functions:
 
     ce = require('color-extractor')
-    ce.topColors('Photos/Cats/01.jpg', true, function (error, colors) {
+    ce.topColors('Photos/Cats/01.jpg', function (error, colors) {
       console.log(colors);
     });
 
-`topColors` function takes three arguments:
+`topColors` function takes two arguments:
 
   * path to your photo,
-  * `true` if you'd like the resulting array to be sorted by frequency,
-    `false` if you'd like to get colors sorted as they appear in the photo (top-to-bottom),
   * a callback function.
 
 Callback function will be passed an `Array` with RGB triplet of each color and its frequency:

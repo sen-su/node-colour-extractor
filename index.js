@@ -11,75 +11,81 @@ function sortByFrequency (a, b) {
 }
 
 /*
-Example line:
+Example lines:
+  f:  (rrr, ggg, bbb, aaa)  #rrggbbaa\n
   f:  (rrr, ggg, bbb)   #rrggbb\n
-  \   \                 \_____________ Hex code / "black" / "white"
-   \   \______________________________ RGB triplet
-    \_________________________________ Frequency at which color appears
 */
 
-var histogramRE = /\s*(\d+): \(\s*(\d+),\s*(\d+),\s*(\d+)\)/;
+var histogramRE = /\s*(\d+): \(\s*(\d+),\s*(\d+),\s*(\d+)(,\s*\d+)?\)/;
 
 function parseHistogramLine (line) {
   var m = histogramRE.exec(line);
   return m && [ +m[1], [ +m[2], +m[3], +m[4] ] ];
 }
 
-exports.topColors = function (sourceFilename, sorted, cb) {
-  var img = gm(sourceFilename);
+function extractColors (filename, cb) {
+  var commentBlock = '';
 
-  var tmpFilename = temp.path({
+  var miffRS = fs.createReadStream(filename, {
+    encoding: 'utf8'
+  });
+
+  miffRS.on('data', function (chunk) {
+    var endDelimPos = chunk.indexOf(MIFF_END);
+
+    if (endDelimPos !== -1) {
+      commentBlock += chunk.slice(0, endDelimPos + MIFF_END.length);
+      miffRS.destroy();
+    } else {
+      commentBlock += chunk;
+    }
+  });
+
+  miffRS.on('close', function () {
+    fs.unlink(filename, function (error) {
+      if (error) {
+        console.error(error);
+      }
+    });
+
+    var histogramStart = commentBlock.indexOf(MIFF_START) + MIFF_START.length;
+    var histogramEnd = commentBlock.indexOf('}', histogramStart);
+
+    var colors = commentBlock.slice(histogramStart, histogramEnd - 1).split('\n').map(parseHistogramLine).filter(Boolean).sort(sortByFrequency);
+
+    if (!colors.length) {
+      return cb(new Error('NoColorsDetected'));
+    }
+
+    cb(null, colors);
+  });
+}
+
+function quantizeImage (img, size, cb) {
+  var ratio = size.width / MAX_W;
+
+  var filename = temp.path({
     suffix: '.miff'
   });
+
+  img.scale(Math.ceil(size.height / ratio), MAX_W).colors(8).write('histogram:' + filename, function (error) {
+    if (error) {
+      return cb(error);
+    }
+
+    extractColors(filename, cb);
+  });
+}
+
+exports.topColors = function (filename, cb) {
+  var img = gm(filename);
 
   img.size(function (error, size) {
     if (error) {
       return cb(error);
     }
 
-    var ratio = size.width / MAX_W;
-
-    img.scale(Math.ceil(size.height / ratio), MAX_W).colors(8).write('histogram:' + tmpFilename, function (error) {
-      if (error) {
-        return cb(error);
-      }
-
-      var histogram = '';
-
-      var miffRS = fs.createReadStream(tmpFilename, {
-        encoding: 'utf8'
-      });
-
-      miffRS.addListener('data', function (chunk) {
-        var endDelimPos = chunk.indexOf(MIFF_END);
-
-        if (endDelimPos !== -1) {
-          histogram += chunk.slice(0, endDelimPos + MIFF_END.length);
-          miffRS.destroy();
-        } else {
-          histogram += chunk;
-        }
-      });
-
-      miffRS.addListener('close', function () {
-        fs.unlink(tmpFilename, function (error) {
-          if (error) {
-            console.error(error);
-          }
-        });
-
-        var histogramStart = histogram.indexOf(MIFF_START) + MIFF_START.length;
-        var histogramEnd = histogram.indexOf('}', histogramStart);
-
-        var colors = histogram.slice(histogramStart, histogramEnd - 1).split('\n').map(parseHistogramLine).filter(Boolean);
-
-        if (sorted) {
-          colors.sort(sortByFrequency);
-        }
-
-        cb(null, colors);
-      });
-    });
+    return quantizeImage(img, size, cb);
   });
 };
 

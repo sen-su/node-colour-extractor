@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v1.1.0 - 2017-09-25
+* Remove sorted option, always sort colors
+* Add support for images with alpha in the histogram
+* Return an error (NoColorsDetected) if we can't find any colors
+* Flatten callback pyramid of doom
+* Update devDependencies
+* Add .npmignore to only distribute important files
+
 ## v1.0.1 - 2017-09-22
 * Filter comments out that are not histogram entries
 
