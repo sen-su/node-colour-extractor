@@ -1,7 +1,7 @@
 {
   "name": "@sensu/color-extractor",
   "description": "Extract color palettes from images",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "homepage": "http://github.com/sen-su/color-extractor",
   "repository": {
     "type": "git",

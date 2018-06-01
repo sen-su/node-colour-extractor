@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## v1.1.2 - 2018-06-01
+* Allow giving the library pathfor topColors
+
 ## v1.1.1 - 2017-09-26
 * Add typescript definition for topColors
 
