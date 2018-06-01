@@ -77,8 +77,11 @@ function quantizeImage (img, size, cb) {
   });
 }
 
-exports.topColors = function (filename, cb) {
-  var img = gm(filename);
+exports.topColors = function (filename, appPath, cb) {
+  var img = gm.subClass({
+		imageMagick: true,
+		appPath: appPath,
+	})(filename);
 
   img.size(function (error, size) {
     if (error) {
@@ -90,7 +93,7 @@ exports.topColors = function (filename, cb) {
 };
 
 exports.colorKey = function (path, cb) {
-  exports.topColors(path, false, function (error, xs) {
+  exports.topColors(path, function (error, xs) {
     if (error) {
       return cb(error);
     }
